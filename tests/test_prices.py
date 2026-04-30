@@ -472,6 +472,14 @@ class TestPriceHistory(unittest.TestCase):
         self.assertFalse(_is_transient_error(YFPricesMissingError('INVALID', '')))
         self.assertFalse(_is_transient_error(KeyError("key")))
 
+    def test_invalid_ticker_raises_prices_missing_not_type_error(self):
+        # Regression for #2670: when Yahoo returns {"chart": null},
+        # history() must raise YFPricesMissingError not TypeError.
+        from yfinance.exceptions import YFPricesMissingError
+        dat = yf.Ticker("TICKER_DOES_NOT_EXIST_XYZ", session=self.session)
+        with self.assertRaises(YFPricesMissingError):
+            dat.history(period="1mo", raise_errors=True)
+
 
 if __name__ == '__main__':
     unittest.main()

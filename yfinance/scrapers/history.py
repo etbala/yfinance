@@ -271,11 +271,11 @@ class PriceHistory:
             _price_data_debug += f"(Yahoo status_code = {data['status_code']})"
             _exception = YFPricesMissingError(self.ticker, _price_data_debug)
             fail = True
-        elif "chart" in data and data["chart"]["error"]:
+        elif "chart" in data and data["chart"] and data["chart"]["error"]:
             _price_data_debug += ' (Yahoo error = "' + data["chart"]["error"]["description"] + '")'
             _exception = YFPricesMissingError(self.ticker, _price_data_debug)
             fail = True
-        elif "chart" not in data or data["chart"]["result"] is None or not data["chart"]["result"] or not data["chart"]["result"][0]["indicators"]["quote"][0]:
+        elif "chart" not in data or not data["chart"] or data["chart"]["result"] is None or not data["chart"]["result"] or not data["chart"]["result"][0]["indicators"]["quote"][0]:
             _exception = YFPricesMissingError(self.ticker, _price_data_debug)
             fail = True
         elif period and period not in self._history_metadata['validRanges'] and not utils.is_valid_period_format(period):
