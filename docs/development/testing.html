@@ -393,7 +393,7 @@ document.write(`
   <section id="unit-tests">
 <h1>Unit Tests<a class="headerlink" href="#unit-tests" title="Link to this heading">#</a></h1>
 <p>Tests are written using <cite>pytest</cite>. Install dev dependencies first if you haven’t already:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[dev]"</span>
 </pre></div>
 </div>
 <p>Here are some ways to run tests:</p>
@@ -408,13 +408,8 @@ document.write(`
 </pre></div>
 </div>
 </li>
-<li><p><strong>Run a specific test class</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>tests/test_prices.py::TestPriceRepair
-</pre></div>
-</div>
-</li>
 <li><p><strong>Run a specific test</strong>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>tests/test_prices_repair.py::TestPriceRepair::test_ticker_missing
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pytest<span class="w"> </span>tests/test_ticker.py::TestTicker::test_ticker_missing
 </pre></div>
 </div>
 </li>

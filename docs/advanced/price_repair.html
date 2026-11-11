@@ -45,7 +45,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'advanced/price_repair';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="API Reference" href="../reference/index.html" />
+    <link rel="next" title="Price adjustment" href="price_adjustment.html" />
     <link rel="prev" title="Multi-Level Column Index" href="multi_level_columns.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -336,6 +336,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="caching.html">Caching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multi_level_columns.html">Multi-Level Column Index</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Price Repair</a></li>
+<li class="toctree-l1"><a class="reference internal" href="price_adjustment.html">Price adjustment</a></li>
 </ul>
 </div>
 </nav></div>
@@ -426,6 +427,26 @@ Requires date range include 1 day after stock split for calibration - sometimes 
 </figcaption>
 </figure>
 <div class="clearer docutils container">
+</div>
+</section>
+<section id="unexplained-split-like-adjustment">
+<h3>Unexplained split-like adjustment<a class="headerlink" href="#unexplained-split-like-adjustment" title="Link to this heading">#</a></h3>
+<p>Sometimes Yahoo multiplies all prices before a date by a split-like ratio, and divides Volume by it, but no split happened near that date.
+The ratio need not match any split, and can’t be measured from <code class="docutils literal notranslate"><span class="pre">1d</span></code> data because the real price change across that date is unknown.
+So it is measured against <code class="docutils literal notranslate"><span class="pre">1h</span></code> data, which does not have the error, then repaired like a bad stock split.
+So only repaired within the last 2 years. A genuine crash is also in <code class="docutils literal notranslate"><span class="pre">1h</span></code> data, so is not repaired.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># SOXS ORIGINAL:
+                                Close    Volume
+2026-05-21 00:00:00-04:00  1243.500000   1714514
+2026-05-22 00:00:00-04:00  1159.500000   1883589
+2026-05-26 00:00:00-04:00    62.900002  40368300
+
+# SOXS REPAIRED:
+                                Close    Volume
+2026-05-21 00:00:00-04:00    82.900000  25717710
+2026-05-22 00:00:00-04:00    77.300000  28253835
+2026-05-26 00:00:00-04:00    62.900002  40368300
+</pre></div>
 </div>
 </section>
 <section id="missing-data">
@@ -567,6 +588,8 @@ FP rate increases with longer intervals, so only 1d intervals are repaired. If y
                            Close  Adj Close     Adj  Dividends
 2024-08-08 00:00:00+01:00  768.0      768.0  1.0000     5150.0
 2024-08-07 00:00:00+01:00  819.0    -4331.0 -5.2882        0.0
+
+# REPAIRED:
                            Close  Adj Close     Adj  Dividends
 2024-08-08 00:00:00+01:00  768.0      768.0  1.0000       51.5
 2024-08-07 00:00:00+01:00  819.0      767.5  0.9371        0.0
@@ -668,11 +691,11 @@ Date
       </div>
     </a>
     <a class="right-next"
-       href="../reference/index.html"
+       href="price_adjustment.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API Reference</p>
+        <p class="prev-next-title">Price adjustment</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -697,6 +720,7 @@ Date
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Price repair</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-dividend-adjustment">Missing dividend adjustment</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-split-adjustment">Missing split adjustment</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unexplained-split-like-adjustment">Unexplained split-like adjustment</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-data">Missing data</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#x-errors">100x errors</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#price-reconstruction-algorithm-notes">Price reconstruction - algorithm notes</a></li>

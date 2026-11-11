@@ -21,17 +21,11 @@ Here are some ways to run tests:
 
      pytest tests/test_prices.py
 
-- **Run a specific test class**:
-
-  .. code-block:: bash
-
-     pytest tests/test_prices.py::TestPriceRepair
-
 - **Run a specific test**:
 
   .. code-block:: bash
 
-     pytest tests/test_prices_repair.py::TestPriceRepair::test_ticker_missing
+     pytest tests/test_ticker.py::TestTicker::test_ticker_missing
 
 - **General command**:
 
